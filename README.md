@@ -40,7 +40,7 @@ pid_steering.UpdateError(cte);
 steer_value = pid_steering.TotalError();
 ```
 
-### Throttle 
+### Throttle controller
 
 Throttle controller decelerates as car move away from center line and as car has larger steering angle.
 This cause car even slow down when it is center line but has some steering angle or car has no steering
@@ -54,16 +54,16 @@ throttle_value = max_throttle - pid_throttle.TotalError();
 
 ### PID components
 
-The P or proportional component causes car to proportionally decrease the error. For _steering controller_
+**_P or proportional component_** causes car to proportionally decrease the error. For _steering controller_
 it makes steering angle bigger as car moves away from center line (CTE goes bigger), so the car would steer back
 towards center line. For _throttle controller_ it makes car use proportionally less throttle as car moves away more 
 from center or has bigger steering angle.
 
-The I or integral component counters systematic bias in the system, which causes car not to reach center. 
+**_I or integral component_** counters systematic bias in the system, which causes car not to reach center. 
 As this solution works in idealistic simulator and there is no bias, this parameter is not tuned and left 0 for
 both steering and throttle pid controllers.
 
-The D or differential component counteracts P components tendency to overshoot, has basically dampening effect.
+_**D or differential component**_ counteracts P components tendency to overshoot, has basically dampening effect.
 For _steering controller_ it causes car not to over-steer, which causes oscillation. For _throttle controller_ it causes
 car not to over-brake, which would cause jerky throttle-brake symptom.
 
