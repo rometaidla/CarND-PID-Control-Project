@@ -35,14 +35,18 @@ int main(int argc, char *argv[])
   PID pid_steering;
   PID pid_throttle;
   // TODO: Initialize the pid variable.
-  double init_Kp = atof(argv[1]);
-  double init_Ki = atof(argv[2]);
-  double init_Kd = atof(argv[3]);
+  const double init_Kp_steering = atof(argv[1]);
+  const double init_Ki_steering = atof(argv[2]);
+  const double init_Kd_steering = atof(argv[3]);
 
-  const double max_throttle = 0.8;
+  const double init_Kp_throttle = atof(argv[4]); // 0.3
+  const double init_Ki_throttle = atof(argv[5]); // 0.0
+  const double init_Kd_throttle = atof(argv[6]); // 0.02
 
-  pid_steering.Init(init_Kp, init_Ki, init_Kd);
-  pid_throttle.Init(0.3, 0.0000, 0.02);
+  const double max_throttle = atof(argv[7]); // 0.8
+
+  pid_steering.Init(init_Kp_steering, init_Ki_steering, init_Kd_steering);
+  pid_throttle.Init(init_Kp_throttle, init_Ki_throttle, init_Kd_throttle);
 
   h.onMessage([&pid_steering, &pid_throttle, &max_throttle](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
@@ -71,7 +75,7 @@ int main(int argc, char *argv[])
           pid_steering.UpdateError(cte);
           steer_value = pid_steering.TotalError();
 
-          pid_throttle.UpdateError(fabs(cte));
+          pid_throttle.UpdateError(fabs(steer_value) + fabs(cte));
           throttle_value = max_throttle - pid_throttle.TotalError();
 
           // DEBUG
