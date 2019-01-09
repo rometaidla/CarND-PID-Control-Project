@@ -6,10 +6,10 @@ Self-Driving Car Engineer Nanodegree Program
 ## How to run
 To build and run, follow these steps:
 
-1. Clone this repo.
+1. Clone this repo
 2. Make a build directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
-4. Run it: `./pid -0.25 0.0 -5.0 0.4 0.0 4.0 1.0`. 
+4. Run it: `./pid -0.25 0.0 -5.0 0.4 0.0 4.0 1.0`.
 
 Program arguments:
 1. Steering controller P component, for ex. _-0.25_
